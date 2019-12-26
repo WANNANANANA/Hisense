@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <div class="shade" v-show="showImgkey" @click="hideImg">
-      <img :src="activeImgSrc" alt class="show-img"/>
-      <img src="./assets/img/loading.gif" alt="loading" class="loading">
+    <div class="shade" v-show="showImgkey" @click="hideImg" @touchmove="touchmove">
+      <img :src="activeImgSrc" alt class="show-img" />
+      <img src="./assets/img/loading.gif" alt="loading" class="loading" />
     </div>
     <header>
       <div :class="{'active' : filterIndex == 1}" @click="filter(1)">海外注册</div>
@@ -1301,7 +1301,7 @@ export default {
           ]
         }
       ]
-    }
+    };
   },
   computed: {
     filterTitle() {
@@ -1314,13 +1314,15 @@ export default {
       document.body.style.overflow = "hidden";
       let match = img.imgSrc.match(/img\/?(\d+)/),
         imgSrc = `./images/${filterTitle}/${match[1]}.jpg`;
-      // console.log(match, imgSrc);
       this.activeImgSrc = imgSrc;
     },
     hideImg() {
       document.body.style.overflow = "auto";
       this.showImgkey = false;
       this.activeImgSrc = "";
+    },
+    touchmove(event) {
+      event.preventDefault();
     },
     filter(index) {
       index = parseInt(index);
