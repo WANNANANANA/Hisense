@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <div class="shade" v-show="showImgkey" @click="hideImg">
-      <img :src="activeImgSrc" alt />
+      <img :src="activeImgSrc" alt class="show-img"/>
+      <img src="./assets/img/loading.gif" alt="loading" class="loading">
     </div>
     <header>
       <div :class="{'active' : filterIndex == 1}" @click="filter(1)">海外注册</div>
@@ -1311,14 +1312,15 @@ export default {
     showImg(img, filterTitle) {
       this.showImgkey = true;
       document.body.style.overflow = "hidden";
-      let match = img.imgSrc.match(/img\/?(\d)/),
-        imgSrc = "./images/" + filterTitle + "/" + match[1] + ".jpg";
-      // console.log(imgSrc);
+      let match = img.imgSrc.match(/img\/?(\d+)/),
+        imgSrc = `./images/${filterTitle}/${match[1]}.jpg`;
+      // console.log(match, imgSrc);
       this.activeImgSrc = imgSrc;
     },
     hideImg() {
       document.body.style.overflow = "auto";
       this.showImgkey = false;
+      this.activeImgSrc = "";
     },
     filter(index) {
       index = parseInt(index);
@@ -1336,8 +1338,7 @@ export default {
       this.filterIndex = 5;
       const value = this.searchValue; // 搜索框的文字内容
     }
-  },
-  watch: {}
+  }
 };
 </script>
 
@@ -1370,8 +1371,14 @@ html {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 88%;
+      max-width: 88%;
       transform: translate(-50%, -50%);
+      &.show-img {
+        z-index: 8;
+      }
+      &.loading {
+        z-index: 6;
+      }
     }
   }
   header {
