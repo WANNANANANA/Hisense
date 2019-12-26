@@ -18,7 +18,8 @@
         <img src="./assets/img/title@2x.png" alt />
         <h3>{{filterTitle}}</h3>
       </div>
-      <ul class="img-wrapper">
+      <div class="none" v-show="none">抱歉，没有找到你想要的内容</div>
+      <ul class="img-wrapper" v-updateImg>
         <li
           class="img-box box-one"
           v-show="filterIndex == 0 || filterIndex == 1 || (item.name.indexOf(searchValue) != -1 && searchValue != '')"
@@ -70,6 +71,15 @@ const baseImgUrl = [
 
 export default {
   name: "app",
+  directives: {
+    updateImg: {
+      componentUpdated: (el, binding, vnode) => {
+        // 发生在指令所在组件和子组件更新之后
+        let height = el.offsetHeight;
+        vnode.context.none = height == 0 ? true : false;
+      }
+    }
+  },
   data() {
     return {
       filterIndex: 0,
@@ -77,6 +87,7 @@ export default {
       searchValue: "",
       showImgkey: false,
       activeImgSrc: "",
+      none: false,
       filterList: [
         { title: "全部专利" },
         { title: "海外注册" },
@@ -1289,7 +1300,7 @@ export default {
           ]
         }
       ]
-    };
+    }
   },
   computed: {
     filterTitle() {
@@ -1300,7 +1311,6 @@ export default {
     showImg(img, filterTitle) {
       this.showImgkey = true;
       document.body.style.overflow = "hidden";
-      // console.log(img.imgSrc, filterTitle);
       let match = img.imgSrc.match(/img\/?(\d)/),
         imgSrc = "./images/" + filterTitle + "/" + match[1] + ".jpg";
       // console.log(imgSrc);
@@ -1326,7 +1336,8 @@ export default {
       this.filterIndex = 5;
       const value = this.searchValue; // 搜索框的文字内容
     }
-  }
+  },
+  watch: {}
 };
 </script>
 
@@ -1342,7 +1353,10 @@ html {
 }
 
 #app {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  min-height: 100%;
   padding: 168px 20px 0px;
   .shade {
     position: fixed;
@@ -1380,6 +1394,7 @@ html {
     }
   }
   main {
+    flex: 1;
     margin-top: 10px;
     padding-top: 20px;
     background: rgba(255, 255, 255, 0.95);
@@ -1425,6 +1440,12 @@ html {
         font-weight: 500;
         color: #00c1c1;
       }
+    }
+    .none {
+      margin-top: 20px;
+      color: #6a6a6a;
+      font-size: 13px;
+      text-align: center;
     }
     .img-wrapper {
       display: flex;
