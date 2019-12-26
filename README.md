@@ -1,2 +1,2 @@
-# hisense
-hisense H5
+# Hisense
+Hisense H5
