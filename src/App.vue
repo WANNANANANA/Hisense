@@ -25,7 +25,7 @@
           v-for="(item, index) in imgList[0].img"
           :key="item.name + index"
         >
-          <img :src="item.imgSrc" alt="item.name" @click="showImg(item, imgList[0].title)" />
+          <img v-lazy="item.imgSrc" alt="item.name" @click="showImg(item, imgList[0].title)" />
           <p class="name">{{item.name}}</p>
         </li>
         <li
@@ -34,7 +34,7 @@
           v-for="(item, index) in imgList[1].img"
           :key="item.name + index"
         >
-          <img :src="item.imgSrc" alt="item.name" @click="showImg(item, imgList[1].title)" />
+          <img v-lazy="item.imgSrc" alt="item.name" @click="showImg(item, imgList[1].title)" />
           <p class="name">{{item.name}}</p>
         </li>
         <li
@@ -43,7 +43,7 @@
           v-for="(item, index) in imgList[2].img"
           :key="item.name + index"
         >
-          <img :src="item.imgSrc" alt="item.name" @click="showImg(item, imgList[2].title)" />
+          <img v-lazy="item.imgSrc" alt="item.name" @click="showImg(item, imgList[2].title)" />
           <p class="name">{{item.name}}</p>
         </li>
         <li
@@ -52,7 +52,7 @@
           v-for="(item, index) in imgList[3].img"
           :key="item.name + index"
         >
-          <img :src="item.imgSrc" alt="item.name" @click="showImg(item, imgList[3].title)" />
+          <img v-lazy="item.imgSrc" alt="item.name" @click="showImg(item, imgList[3].title)" />
           <p class="name">{{item.name}}</p>
         </li>
       </ul>
@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import { parse } from 'querystring';
 const baseImgUrl = [
   "./assets/img/海外注册/",
   "./assets/img/发明专利/",
@@ -1303,7 +1302,7 @@ export default {
       document.body.style.overflow = "hidden";
       // console.log(img.imgSrc, filterTitle);
       let match = img.imgSrc.match(/img\/?(\d)/),
-      imgSrc = './images/' + filterTitle + '/' + match[1] + '.jpg';
+        imgSrc = "./images/" + filterTitle + "/" + match[1] + ".jpg";
       // console.log(imgSrc);
       this.activeImgSrc = imgSrc;
     },
@@ -1312,9 +1311,9 @@ export default {
       this.showImgkey = false;
     },
     filter(index) {
-      index = parseInt(index); 
+      index = parseInt(index);
       this.searchValue = "";
-      this.filterIndex = (this.filterIndex == index ? 0 : index); // 点击一次选中分区 再点击取消分区筛选
+      this.filterIndex = this.filterIndex == index ? 0 : index; // 点击一次选中分区 再点击取消分区筛选
     },
     input() {
       if (this.searchValue) {
