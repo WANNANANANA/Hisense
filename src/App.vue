@@ -20,7 +20,7 @@
         <h3>{{filterTitle}}</h3>
       </div>
       <div class="none" v-show="none">抱歉，没有找到你想要的内容</div>
-      <ul class="img-wrapper" v-updateImg>
+      <ul class="img-wrapper">
         <li
           class="img-box box-one"
           v-show="filterIndex == 0 || filterIndex == 1 || (item.name.indexOf(searchValue) != -1 && searchValue != '')"
