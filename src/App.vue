@@ -19,8 +19,8 @@
         <img src="./assets/img/title@2x.png" alt />
         <h3>{{filterTitle}}</h3>
       </div>
-      <div class="none" v-show="none">抱歉，没有找到你想要的内容</div>
-      <ul class="img-wrapper">
+      <div class="none" v-show="searchResultNull">抱歉，没有找到你想要的内容</div>
+      <ul class="img-wrapper" v-updateImg>
         <li
           class="img-box box-one"
           v-show="filterIndex == 0 || filterIndex == 1 || (item.name.indexOf(searchValue) != -1 && searchValue != '')"
@@ -77,7 +77,7 @@ export default {
       componentUpdated: (el, binding, vnode) => {
         // 发生在指令所在组件和子组件更新之后
         let height = el.offsetHeight;
-        vnode.context.none = height == 0 ? true : false;
+        vnode.context.searchResultNull = height == 0 ? true : false;
       }
     }
   },
@@ -88,7 +88,7 @@ export default {
       searchValue: "",
       showImgkey: false,
       activeImgSrc: "",
-      none: false,
+      searchResultNull: false,
       filterList: [
         { title: "全部专利" },
         { title: "海外注册" },
@@ -1338,7 +1338,6 @@ export default {
     },
     search() {
       this.filterIndex = 5;
-      const value = this.searchValue; // 搜索框的文字内容
     }
   }
 };
